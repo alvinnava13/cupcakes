@@ -34,10 +34,12 @@
 
         foreach($flavors as $key => $value)
         {
-
+            echo "<input type='checkbox' value=$key name='flavor[]'>$value<br>";
         }
 
         ?>
+
+        <br><input type="submit" name="submit" value="Order">
 </form>
 
 </body>

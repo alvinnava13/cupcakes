@@ -1,10 +1,10 @@
 <?php
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST')
+if($_SERVER['REQUEST_METHOD'] == 'POST')
 {
     $errors = [];
 
-    if (empty($_POST['name']))
+    if(empty($_POST['name']))
     {
         $errors[] = 'You forgot to enter your name.';
     }
@@ -27,14 +27,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 
         echo '<ul>';
 
-        foreach($flavor as $key => $value)
+        foreach($_POST['flavor'] as $choice)
         {
-            echo "<li>" . $value . "</li>";
+            echo "<li>" . $choice . "</li>";
         }
 
         echo '</ul>';
         $cost = calculate_cost($flavor);
         echo '<p>Order Total: $' . $cost . '</p>';
+    }
+    else
+    {
+        echo '<h1>Error!</h1>
+  		<p class="error">The following error(s) occurred:<br>';
+        foreach ($errors as $msg)
+        { // Print each error.
+            echo " - $msg<br>\n";
+        }
+        echo '</p><p>Please try again.</p><p><br></p>';
     }
 
 } // End of IF statement
@@ -48,6 +58,22 @@ function calculate_cost($flavor)
 
     return number_format($total, 2);
 }
+
+/*function create_checkbox($name, $value)
+{
+    // Start the element:
+    echo '<input type="checkbox" name="flavor[]" value="' . $value . '"';
+
+    // Check for stickiness:
+    if (isset($_POST[$name]) && ($_POST[$name] == $value))
+    {
+        echo 'checked = "checked"';
+    }
+
+    // Complete the element:
+    echo ">$value";
+    echo '<br>';
+}*/
 
 ?>
 
@@ -66,9 +92,8 @@ function calculate_cost($flavor)
 <h1>Cupcake Fundraiser</h1>
 
 <form action="cupcake.php" method="POST" id="form">
-    <label>Your Name: <br><input type="text" name="name" size="30" maxlength="50" value="
-    <?php if (isset($_POST['name'])) echo $_POST['name']; ?>"></label><br>
-    <label><p>Cupcake Flavors:</p>
+    <p><label>Your Name: <br><input type="text" name="name" maxlength="50" value="<?php if(isset($_POST['name'])) echo $_POST['name'];?>"></label></p><br>
+    <label>Cupcake Flavors:</label><br>
         <?php
         // $key => $value
         $flavors = array("grasshopper" => "The Grasshopper",
@@ -81,9 +106,17 @@ function calculate_cost($flavor)
 
         foreach($flavors as $key => $value)
         {
-            echo "<input type='checkbox' value=$key name='flavor[]'>$value<br>";
+            //echo "<input type='checkbox' value=$value name='flavor[]'>$value<br>";
+            echo "<br><input type='checkbox' name='flavor[]' value='" . $value . "'>$value";
         }
 
+        /*create_checkbox('flavor', 'grasshopper');
+        create_checkbox('flavor', 'maple');
+        create_checkbox('flavor', 'carrot');
+        create_checkbox('flavor', 'caramel');
+        create_checkbox('flavor', 'velvet');
+        create_checkbox('flavor', 'lemon');
+        create_checkbox('flavor', 'tiramisu');*/
         ?>
 
         <br><input type="submit" name="submit" value="Order">

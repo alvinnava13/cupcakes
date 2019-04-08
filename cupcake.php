@@ -1,27 +1,38 @@
 <?php
-
+/**
+ * Alvin Nava
+ * 4/7/19
+ * cupcake.php
+ * This is a simple cupcake ordering form
+ * that calculates the total cost for the user's order
+ */
 if($_SERVER['REQUEST_METHOD'] == 'POST')
 {
+    // Error array
     $errors = [];
 
+    // If no name was entered...
     if(empty($_POST['name']))
     {
         $errors[] = 'You forgot to enter your name.';
     }
 
+    // If no flavor is selected...
     if(!isset($_POST['flavor']))
     {
         $errors[] = 'You must select at least one flavor.';
     }
+
     if(isset($_POST['flavor']))
     {
         $flavor = $_POST['flavor'];
     }
 
+    // If form was filled out completely and correctly...
     if(empty($errors))
     {
+        // Display confirmation message
         echo '<h1>Order Confirmation</h1>';
-        //echo '<p>Thank you, ' . $_POST['name'] . ' ' . 'for your order of ' . implode(", ", $flavor) . ' cupcake</p>';
         echo '<p>Thank you, ' . $_POST['name'] . ', ' . 'for your order.</p>';
         echo '<p>Order Summary:</p>';
 
@@ -41,7 +52,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
         echo '<h1>Error!</h1>
   		<p class="error">The following error(s) occurred:<br>';
         foreach ($errors as $msg)
-        { // Print each error.
+        {
+            // Print each error.
             echo " - $msg<br>\n";
         }
         echo '</p><p>Please try again.</p><p><br></p>';
@@ -93,9 +105,12 @@ function calculate_cost($flavor)
             echo "<br><input type='checkbox' name='flavor[]' value='" . $value . "'>$value";
         }*/
 
+        // For each flavor in the $flavors associative array
         foreach($flavors as $key => $value)
         {
+            // Create a checkbox for the flavor
             echo "<br><input type='checkbox' name='flavor[]' value='" . $value . "'";
+            // If the flavor was selected, make the checkbox sticky
             if(isset($_POST['flavor']) && in_array($value, $flavor))
             {
                 echo 'checked = "checked"';

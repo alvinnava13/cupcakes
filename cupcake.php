@@ -59,22 +59,6 @@ function calculate_cost($flavor)
     return number_format($total, 2);
 }
 
-/*function create_checkbox($name, $value)
-{
-    // Start the element:
-    echo '<input type="checkbox" name="flavor[]" value="' . $value . '"';
-
-    // Check for stickiness:
-    if (isset($_POST[$name]) && ($_POST[$name] == $value))
-    {
-        echo 'checked = "checked"';
-    }
-
-    // Complete the element:
-    echo ">$value";
-    echo '<br>';
-}*/
-
 ?>
 
 
@@ -104,19 +88,22 @@ function calculate_cost($flavor)
                             "lemon" => "Lemon Drop",
                             "tiramisu" => "Tiramisu");
 
+        /*foreach($flavors as $key => $value)
+        {
+            echo "<br><input type='checkbox' name='flavor[]' value='" . $value . "'>$value";
+        }*/
+
         foreach($flavors as $key => $value)
         {
-            //echo "<input type='checkbox' value=$value name='flavor[]'>$value<br>";
-            echo "<br><input type='checkbox' name='flavor[]' value='" . $value . "'>$value";
+            echo "<br><input type='checkbox' name='flavor[]' value='" . $value . "'";
+            if(isset($_POST['flavor']) && in_array($value, $flavor))
+            {
+                echo 'checked = "checked"';
+            }
+
+            echo ">$value";
         }
 
-        /*create_checkbox('flavor', 'grasshopper');
-        create_checkbox('flavor', 'maple');
-        create_checkbox('flavor', 'carrot');
-        create_checkbox('flavor', 'caramel');
-        create_checkbox('flavor', 'velvet');
-        create_checkbox('flavor', 'lemon');
-        create_checkbox('flavor', 'tiramisu');*/
         ?>
 
         <br><input type="submit" name="submit" value="Order">
